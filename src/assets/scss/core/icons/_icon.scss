@@ -12,7 +12,6 @@
 
     + .icon-text {
     	padding-left: 1rem;
-    	width: calc(100% - #{$icon-size} - 1);
     }
 }
 
@@ -28,7 +27,6 @@
 	}
 
     + .icon-text {
-    	width: calc(100% - #{$icon-size-xl} - 1);
     }
 }
 
@@ -44,7 +42,6 @@
 	}
 
     + .icon-text {
-    	width: calc(100% - #{$icon-size-lg} - 1);
     }
 }
 
@@ -60,6 +57,5 @@
 	}
 
     + .icon-text {
-    	width: calc(100% - #{$icon-size-sm} - 1);
     }
 }
