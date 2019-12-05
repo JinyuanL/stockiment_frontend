@@ -43,8 +43,11 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@nivo/line": "^0.59.3",
+    "axios": "^0.19.0",
     "chart.js": "2.7.3",
     "classnames": "2.2.6",
+    "memoize-one": "^5.1.1",
     "moment": "2.24.0",
     "node-sass": "4.11.0",
     "nouislider": "13.1.1",
@@ -56,6 +59,8 @@
     "react-google-maps": "9.4.5",
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.8",
+    "react-ticker": "^1.2.1",
+    "react-twitter-embed": "^3.0.3",
     "reactstrap": "7.1.0"
   },
   "devDependencies": {

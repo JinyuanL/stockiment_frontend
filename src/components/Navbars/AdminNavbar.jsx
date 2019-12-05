@@ -35,6 +35,9 @@ import {
   Media
 } from "reactstrap";
 
+const animals = ['Duck', 'Cow', 'Lizard', 'Cat', 'Dog', 'Fish', 'Horse', 'Kangaroo'];
+
+
 class AdminNavbar extends React.Component {
   render() {
     return (
@@ -71,7 +74,7 @@ class AdminNavbar extends React.Component {
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        Jessica Jones
+                        Anonymous { animals[Math.floor(Math.random() * animals.length)] }
                       </span>
                     </Media>
                   </Media>

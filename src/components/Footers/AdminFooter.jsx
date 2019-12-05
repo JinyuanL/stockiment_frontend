@@ -31,11 +31,11 @@ class Footer extends React.Component {
               © 2018{" "}
               <a
                 className="font-weight-bold ml-1"
-                href="https://www.creative-tim.com?ref=adr-admin-footer"
+                href="https://wiki.illinois.edu/wiki/display/CS411AAFA19/Team+Higher+Us"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Creative Tim
+                Stockiment
               </a>
             </div>
           </Col>
@@ -44,17 +44,17 @@ class Footer extends React.Component {
             <Nav className="nav-footer justify-content-center justify-content-xl-end">
               <NavItem>
                 <NavLink
-                  href="https://www.creative-tim.com?ref=adr-admin-footer"
+                  href="https://wiki.illinois.edu/wiki/display/CS411AAFA19/Team+Higher+Us"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Creative Tim
+                  Stockiment
                 </NavLink>
               </NavItem>
 
               <NavItem>
                 <NavLink
-                  href="https://www.creative-tim.com/presentation?ref=adr-admin-footer"
+                  href="https://wiki.illinois.edu/wiki/display/CS411AAFA19/Team+Higher+Us"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -64,7 +64,7 @@ class Footer extends React.Component {
 
               <NavItem>
                 <NavLink
-                  href="http://blog.creative-tim.com?ref=adr-admin-footer"
+                  href="https://wiki.illinois.edu/wiki/display/CS411AAFA19/Team+Higher+Us"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -74,7 +74,7 @@ class Footer extends React.Component {
 
               <NavItem>
                 <NavLink
-                  href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md?ref=adr-admin-footer"
+                  href="https://wiki.illinois.edu/wiki/display/CS411AAFA19/Team+Higher+Us"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

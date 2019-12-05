@@ -1,22 +1,5 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
-
+import axios from 'axios';
 // reactstrap components
 import {
   Button,
@@ -30,10 +13,126 @@ import {
   Row,
   Col
 } from "reactstrap";
-// core components
+
 import UserHeader from "components/Headers/UserHeader.jsx";
 
+const animals = ['duck', 'cow', 'lizard', 'cat', 'dog', 'fish', 'horse'];
+
+function arrayRemove(arr, value) {
+  return arr.filter(function (ele) {
+    return ele !== value;
+  });
+}
+const url = "http://fa19-cs411-005.cs.illinois.edu:3000/";
+
+const defaultUser = 'Zhaojie Tang';
+
 class Profile extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.addTicker = this.addTicker.bind(this);
+    this.removeTicker = this.removeTicker.bind(this);
+    this.updateRemoveField = this.updateRemoveField.bind(this);
+    this.updateAddField = this.updateAddField.bind(this);
+    this.getListOfFavs = this.getListOfFavs.bind(this);
+    this.updateUserId = this.updateUserId.bind(this);
+
+    this.state = {
+      listOfAllStocks: [],
+      listOfFavs: [],
+      userId: 'Zhaojie Tang',
+      phone: '5307609085',
+      addField: '',
+      removeField: ''
+    }
+  }
+  componentDidMount() {
+    this.getUser();
+    this.getAllStockTickers();
+    this.getListOfFavs();
+  }
+
+  updateUserId(event) {
+    this.setState({ userId: event.target.value });
+  }
+
+  getUser() {
+    axios.get(url + `stocks`)
+      .then((response) => {
+        this.setState({ listOfAllStocks: response.data });
+      })
+  }
+  getAllStockTickers() {
+    axios.get(url + `stocks`)
+      .then((response) => {
+        this.setState({ listOfAllStocks: response.data });
+      })
+  }
+
+  getListOfFavs() {
+    axios.get(url + `user/${this.state.userId}`)
+      .then((response) => {
+        this.setState({ listOfFavs: response.data });
+      })
+  }
+
+  addNewTickerToRemote(newTicker) {
+    axios.put(url + `user/${this.state.userId}`, {
+      stock: newTicker
+    });
+  }
+
+  removeNewTickerFromRemote(removedTicker) {
+    axios.delete(url + `user/${this.state.userId}/${removedTicker}`);
+  }
+
+  renderListOfAllStocks() {
+    const { listOfAllStocks } = this.state;
+
+    return (
+      <>
+        {listOfAllStocks.map(ticker => (
+          <div>{ticker.Symbol}</div>
+        ))}
+      </>
+    );
+  }
+
+  renderListOfFavs() {
+    const { listOfFavs } = this.state;
+    return (
+      <>
+        {listOfFavs.map(ticker => (
+          <div>{ticker}</div>
+        ))}
+      </>
+    );
+  }
+
+  updateRemoveField(event) {
+    console.log("updateRemoveField" + event.target.value)
+    this.setState({ removeField: event.target.value });
+  }
+
+  updateAddField(event) {
+    console.log("updateAddField" + event.target.value)
+    this.setState({ addField: event.target.value });
+  }
+
+  removeTicker(event) {
+    console.log("removeTicker has been called" + event.target.innerText)
+    const newListOfFavs = arrayRemove(this.state.listOfFavs, this.state.removeField);
+    this.setState({ listOfFavs: newListOfFavs }, this.removeNewTickerFromRemote(this.state.removeField));
+  }
+
+  addTicker(event) {
+    console.log("addTicker has been called" + event.target.innerText);
+    var newListOfFavs = this.state.listOfFavs;
+    newListOfFavs.push(this.state.addField);
+    this.setState({ listOfFavs: newListOfFavs }, this.addNewTickerToRemote(this.state.addField));
+  }
+
   render() {
     return (
       <>
@@ -50,75 +149,41 @@ class Profile extends React.Component {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={require("assets/img/theme/team-4-800x800.jpg")}
+                          src={require("assets/img/theme/duck.gif")}
                         />
                       </a>
                     </div>
                   </Col>
                 </Row>
-                <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                  <div className="d-flex justify-content-between">
-                    <Button
-                      className="mr-4"
-                      color="info"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                      size="sm"
-                    >
-                      Connect
-                    </Button>
-                    <Button
-                      className="float-right"
-                      color="default"
-                      href="#pablo"
-                      onClick={e => e.preventDefault()}
-                      size="sm"
-                    >
-                      Message
-                    </Button>
-                  </div>
-                </CardHeader>
+
                 <CardBody className="pt-0 pt-md-4">
                   <Row>
                     <div className="col">
                       <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                        <div>
-                          <span className="heading">22</span>
-                          <span className="description">Friends</span>
-                        </div>
-                        <div>
-                          <span className="heading">10</span>
-                          <span className="description">Photos</span>
-                        </div>
-                        <div>
-                          <span className="heading">89</span>
-                          <span className="description">Comments</span>
-                        </div>
+                      <br />
+                      <br />
                       </div>
                     </div>
                   </Row>
                   <div className="text-center">
                     <h3>
-                      Jessica Jones
-                      <span className="font-weight-light">, 27</span>
+                      Anonymous { animals[Math.floor(Math.random() * animals.length)] }
                     </h3>
                     <div className="h5 font-weight-300">
                       <i className="ni location_pin mr-2" />
-                      Bucharest, Romania
+                      Champaign, United States
                     </div>
                     <div className="h5 mt-4">
                       <i className="ni business_briefcase-24 mr-2" />
-                      Solution Manager - Creative Tim Officer
+                      Corn field invader
                     </div>
                     <div>
                       <i className="ni education_hat mr-2" />
-                      University of Computer Science
+                      University of Why is this here
                     </div>
                     <hr className="my-4" />
                     <p>
-                      Ryan — the name taken by Melbourne-raised, Brooklyn-based
-                      Nick Murphy — writes, performs and records all of his own
-                      music.
+                      Here is something I haven't gotten the time to remove yet
                     </p>
                     <a href="#pablo" onClick={e => e.preventDefault()}>
                       Show more
@@ -159,13 +224,14 @@ class Profile extends React.Component {
                               className="form-control-label"
                               htmlFor="input-username"
                             >
-                              Username
+                              UserId
                             </label>
                             <Input
                               className="form-control-alternative"
-                              defaultValue="lucky.jesse"
+                              defaultValue= {this.state.userId}
+                              onChange={this.updateUserId}
                               id="input-username"
-                              placeholder="Username"
+                              placeholder="1"
                               type="text"
                             />
                           </FormGroup>
@@ -176,146 +242,67 @@ class Profile extends React.Component {
                               className="form-control-label"
                               htmlFor="input-email"
                             >
-                              Email address
+                              phone number
                             </label>
                             <Input
                               className="form-control-alternative"
                               id="input-email"
-                              placeholder="jesse@example.com"
-                              type="email"
+                              placeholder= {this.state.phone}
+                              type="text"
                             />
                           </FormGroup>
                         </Col>
                       </Row>
                       <Row>
                         <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-first-name"
-                            >
-                              First name
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="Lucky"
-                              id="input-first-name"
-                              placeholder="First name"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-last-name"
-                            >
-                              Last name
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="Jesse"
-                              id="input-last-name"
-                              placeholder="Last name"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                    <hr className="my-4" />
-                    {/* Address */}
-                    <h6 className="heading-small text-muted mb-4">
-                      Contact information
-                    </h6>
-                    <div className="pl-lg-4">
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-address"
-                            >
-                              Address
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                              id="input-address"
-                              placeholder="Home Address"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg="4">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-city"
-                            >
-                              City
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="New York"
-                              id="input-city"
-                              placeholder="City"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="4">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-country"
-                            >
-                              Country
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              defaultValue="United States"
-                              id="input-country"
-                              placeholder="Country"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="4">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-country"
-                            >
-                              Postal code
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-postal-code"
-                              placeholder="Postal code"
-                              type="number"
-                            />
-                          </FormGroup>
+                          <Button
+                            color="primary"
+                            size="sm"
+                            onClick={this.getListOfFavs}
+                          >get favs</Button>
                         </Col>
                       </Row>
                     </div>
                     <hr className="my-4" />
                     {/* Description */}
-                    <h6 className="heading-small text-muted mb-4">About me</h6>
+                    <h6 className="heading-small text-muted mb-4">My Favorite Tickers</h6>
                     <div className="pl-lg-4">
                       <FormGroup>
-                        <label>About Me</label>
+                        <label>I am subscribed to this list of tickers</label>
+                        { this.renderListOfFavs() }
                         <Input
                           className="form-control-alternative"
-                          placeholder="A few words about you ..."
-                          rows="4"
-                          defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
-                          Open Source."
-                          type="textarea"
+                          id="input-removeFav"
+                          placeholder="ticker"
+                          type="text"
+                          onChange={this.updateRemoveField}
                         />
+                        <Button
+                          color="primary"
+                          size="sm"
+                          onClick={this.removeTicker}
+                          >Remove this ticker</Button>
+                      </FormGroup>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Description */}
+                    <h6 className="heading-small text-muted mb-4">All avaliable tickers</h6>
+                    <div className="pl-lg-4">
+                      <FormGroup>
+                        <label>I can sub to any of the following tickers</label>
+                        {this.renderListOfAllStocks()}
+                        <Input
+                          className="form-control-alternative"
+                          id="input-addNewFav"
+                          placeholder="ticker"
+                          type="text"
+                          onChange={this.updateAddField}
+                        />
+                        <Button
+                          color="primary"
+                          size="sm"
+                          onClick={this.addTicker}
+                          >Add this ticker</Button>
                       </FormGroup>
                     </div>
                   </Form>
